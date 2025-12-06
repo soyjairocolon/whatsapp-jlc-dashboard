@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import IconImagePicker from './icon-image-picker/icon_image_picker';
 import iconDefaultWS from '../../../../../assets/images/icons/free/default_whatsapp.png'
 import iconDefaultChat from '../../../../../assets/images/icons/free/default_chat.png';
-import iconDefaultSupport from '../../../../../assets/images/icons/free/default_support.webp';
-import iconPremium1 from '../../../../../assets/images/icons//premium/premium_1.jpg';
-import iconPremium2 from '../../../../../assets/images/icons//premium/premium_2.png';
+import iconDefaultSupport from '../../../../../assets/images/icons/free/default_support.png';
+import iconPremium1 from '../../../../../assets/images/icons/premium/premium_1.jpg';
+import iconPremium2 from '../../../../../assets/images/icons/premium/premium_2.png';
 import './icon_selector.css';
 
 export default function IconSelector({ settings = {}, onChange }) {
