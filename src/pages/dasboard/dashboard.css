@@ -1,7 +1,7 @@
 .jlc-dashboard {
 	display: flex;
 	min-height: 100vh;
-	width: 100%;
+	width: 90%;
 	background: var(--jlc-premium-bg);
 }
 
@@ -14,11 +14,6 @@
 	box-shadow: var(--jlc-shadow);
 	display: flex;
 	flex-direction: column;
-}
-
-.jlc-content {
-	flex: 1;
-	padding: 40px;
 }
 
 @media (max-width: 1024px) {
@@ -52,6 +47,9 @@
 }
 
 @media (max-width: 768px) {
+	.jlc-dashboard {
+		width: 100%;
+	}
 	.jlc-sidebar {
 		width: 100% !important;
 		min-width: 100% !important;
@@ -71,9 +69,6 @@
 
 	.jlc-nav-item {
 		white-space: nowrap;
-	}
-	.jlc-content {
-		padding: 20px;
 	}
 
 	.jlc-section-title {
