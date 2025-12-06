@@ -4,6 +4,7 @@ import PhoneSettings from './sections/phone-settings/phone_settings';
 import IconSelector from './sections/icon-selector/icon_selector';
 import FloatingButtonOptions from './sections/floating-button-options/floating_button_options';
 import PreviewBox from './sections/preview-box/preview_box';
+import { notifySuccess, notifyError } from '../../utils/notifications';
 import './general_tab.css';
 
 export default function GeneralTab() {
@@ -73,10 +74,10 @@ export default function GeneralTab() {
 
 			if (!res.ok) throw new Error('Error en la petición');
 
-			alert('Cambios guardados correctamente');
+			notifySuccess('Cambios guardados correctamente');
 		} catch (error) {
 			console.error(error);
-			alert('Error al guardar los cambios');
+			notifyError('Error al guardar los cambios');
 		}
 	};
 
