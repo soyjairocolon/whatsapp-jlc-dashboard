@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import IconImagePicker from './icon-image-picker/icon_image_picker';
-import iconFree1 from '../../../../../assets/icons/free/free-1-icon-ws.png';
-import iconFree2 from '../../../../../assets/icons/free/free-2-icon-ws.png';
-import iconFree3 from '../../../../../assets/icons/free/free-3-icon-ws.webp';
+import iconDefaultWS from '../../../../../assets/images/icons/free/default_whatsapp.png'
+import iconDefaultChat from '../../../../../assets/images/icons/free/default_chat.png';
+import iconDefaultSupport from '../../../../../assets/images/icons/free/default_support.webp';
+import iconPremium1 from '../../../../../assets/images/icons//premium/premium_1.jpg';
+import iconPremium2 from '../../../../../assets/images/icons//premium/premium_2.png';
 import './icon_selector.css';
 
 export default function IconSelector({ settings = {}, onChange }) {
@@ -19,26 +21,22 @@ export default function IconSelector({ settings = {}, onChange }) {
 	//  ÍCONOS
 	// ===============================
 	const freeIcons = [
-		{ id: 'default_whatsapp', src: iconFree1 },
-		{ id: 'default_chat', src: iconFree2 },
-		{ id: 'default_support', src: iconFree3 },
+		{ id: 'default_whatsapp', src: iconDefaultWS },
+		{ id: 'default_chat', src: iconDefaultChat },
+		{ id: 'default_support', src: iconDefaultSupport },
 	];
 
 	const premiumIcons = [
-		{ id: 'premium_1', label: 'WhatsApp Pro', src: '/icons/premium1.png' },
-		{ id: 'premium_2', label: 'Chat Pro', src: '/icons/premium2.png' },
+		{ id: 'premium_1', label: 'WhatsApp Pro', src: iconPremium1 },
+		{ id: 'premium_2', label: 'Chat Pro', src: iconPremium2 },
 	];
 
 	// ==========================================================
 	//  1. CUANDO CAMBIEN SETTINGS DESDE WORDPRESS → CARGARLOS
 	// ==========================================================
-	// ===============================
-	//  1. Cargar settings desde WP
-	// ===============================
 	useEffect(() => {
 		if (!settings) return;
 
-		// Agrupamos actualizaciones → evita cascadas
 		setSelectedIcon(settings.selected_icon || 'default_whatsapp');
 		setCustomImage(settings.custom_image || '');
 		setBehavior(settings.behavior || 'toggle');
@@ -46,9 +44,9 @@ export default function IconSelector({ settings = {}, onChange }) {
 		setPremiumUnlocked(settings.premium_unlocked || false);
 	}, [settings]);
 
-	// ===============================================
-	//  2. Notificar cambios al componente padre
-	// ===============================================
+	// ==========================================================
+	//  2. NOTIFICAR CAMBIOS AL COMPONENTE PADRE (GeneralTab)
+	// ==========================================================
 	useEffect(() => {
 		onChange({
 			selected_icon: selectedIcon,
@@ -58,23 +56,22 @@ export default function IconSelector({ settings = {}, onChange }) {
 			premium_unlocked: premiumUnlocked,
 		});
 
-		// ⚠️ Se IGNORA onChange en dependencias, porque
-		// causaría un loop al recrearse en cada render.
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [selectedIcon, customImage, behavior, color, premiumUnlocked]);
 
 	// ==========================================================
-	//  3. CAMBIO DE ICONO (free o premium)
+	//  3. CAMBIO DE ICON (free o premium)
 	// ==========================================================
 	const handleIconChange = (id, isPremium) => {
-		if (isPremium && !premiumUnlocked) return; 
+		if (isPremium && !premiumUnlocked) return;
+
 		setSelectedIcon(id);
-		setCustomImage(''); 
+		setCustomImage(''); // Si elige un icon, eliminamos el custom_image
 	};
 
 	return (
 		<div className="jlc-icon-selector">
-			<h2 className="jlc-section-title">Icono del Botón Flotante</h2>
+			<h2 className="jlc-section-title">Icon del Botón Flotante</h2>
 
 			<p className="jlc-section-description">
 				Selecciona el estilo visual principal del botón de contacto.
