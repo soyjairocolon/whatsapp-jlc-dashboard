@@ -13,17 +13,35 @@ export default function GeneralTab() {
 		floating: {},
 	});
 
+	// ============================
+	// GET SETTINGS (CARGA INICIAL)
+	// ============================
 	useEffect(() => {
-		fetch('/wp-json/wjlc/v1/general-settings')
-			.then((res) => res.json())
-			.then((data) => {
+		async function loadSettings() {
+			try {
+				const res = await fetch('/wp-json/wjlc/v1/general-settings', {
+					method: 'GET',
+					headers: {
+						'X-WP-Nonce': wjlcData.nonce,
+					},
+				});
+
+				const data = await res.json();
+
 				if (data.success && data.settings) {
 					setGlobalData(data.settings);
 				}
-			})
-			.catch(() => {});
+			} catch (error) {
+				console.error('Error cargando ajustes generales:', error);
+			}
+		}
+
+		loadSettings();
 	}, []);
 
+	// ============================
+	// ACTUALIZAR SECCIÓN INDIVIDUAL
+	// ============================
 	const updateSectionData = (section, values) => {
 		setGlobalData((prev) => ({
 			...prev,
@@ -31,6 +49,9 @@ export default function GeneralTab() {
 		}));
 	};
 
+	// ============================
+	// GUARDAR TODO
+	// ============================
 	const saveAllChanges = async () => {
 		const payload = {
 			phone: globalData.phone,

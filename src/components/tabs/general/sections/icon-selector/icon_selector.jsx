@@ -5,15 +5,19 @@ import iconFree2 from '../../../../../assets/icons/free/free-2-icon-ws.png';
 import iconFree3 from '../../../../../assets/icons/free/free-3-icon-ws.webp';
 import './icon_selector.css';
 
-export default function IconSelector({ onChange }) {
-	const [settings, setSettings] = useState({
-		selected_icon: 'default_whatsapp',
-		custom_image: '',
-		behavior: 'toggle',
-		premium_unlocked: false,
-		color: '#25D366',
-	});
+export default function IconSelector({ settings = {}, onChange }) {
+	// ===============================
+	//  ESTADO LOCAL
+	// ===============================
+	const [selectedIcon, setSelectedIcon] = useState('default_whatsapp');
+	const [customImage, setCustomImage] = useState('');
+	const [behavior, setBehavior] = useState('toggle');
+	const [color, setColor] = useState('#25D366');
+	const [premiumUnlocked, setPremiumUnlocked] = useState(false);
 
+	// ===============================
+	//  ÍCONOS
+	// ===============================
 	const freeIcons = [
 		{ id: 'default_whatsapp', src: iconFree1 },
 		{ id: 'default_chat', src: iconFree2 },
@@ -25,34 +29,47 @@ export default function IconSelector({ onChange }) {
 		{ id: 'premium_2', label: 'Chat Pro', src: '/icons/premium2.png' },
 	];
 
-	/** =====================================================
-	 *  1. Cargar settings desde WordPress (REST API)
-	 * ======================================================*/
+	// ==========================================================
+	//  1. CUANDO CAMBIEN SETTINGS DESDE WORDPRESS → CARGARLOS
+	// ==========================================================
+	// ===============================
+	//  1. Cargar settings desde WP
+	// ===============================
 	useEffect(() => {
-		fetch('/wp-json/wjlc/v1/icon-settings')
-			.then((res) => res.json())
-			.then((data) => setSettings((prev) => ({ ...prev, ...data })))
-			.catch(() => {});
-	}, []);
+		if (!settings) return;
 
-	/** =====================================================
-	 *  3. Actualizar settings (función universal)
-	 * ======================================================*/
-	const updateSettings = (newValues) => {
-		setSettings((prev) => {
-			const updated = { ...prev, ...newValues };
-			onChange(updated);
-			return updated;
+		// Agrupamos actualizaciones → evita cascadas
+		setSelectedIcon(settings.selected_icon || 'default_whatsapp');
+		setCustomImage(settings.custom_image || '');
+		setBehavior(settings.behavior || 'toggle');
+		setColor(settings.color || '#25D366');
+		setPremiumUnlocked(settings.premium_unlocked || false);
+	}, [settings]);
+
+	// ===============================================
+	//  2. Notificar cambios al componente padre
+	// ===============================================
+	useEffect(() => {
+		onChange({
+			selected_icon: selectedIcon,
+			custom_image: customImage,
+			behavior,
+			color,
+			premium_unlocked: premiumUnlocked,
 		});
-	};
 
-	/** =====================================================
-	 *  4. Cambiar icono (free o premium)
-	 * ======================================================*/
+		// ⚠️ Se IGNORA onChange en dependencias, porque
+		// causaría un loop al recrearse en cada render.
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [selectedIcon, customImage, behavior, color, premiumUnlocked]);
+
+	// ==========================================================
+	//  3. CAMBIO DE ICONO (free o premium)
+	// ==========================================================
 	const handleIconChange = (id, isPremium) => {
-		if (isPremium && !settings.premium_unlocked) return;
-
-		updateSettings({ selected_icon: id });
+		if (isPremium && !premiumUnlocked) return; 
+		setSelectedIcon(id);
+		setCustomImage(''); 
 	};
 
 	return (
@@ -63,13 +80,13 @@ export default function IconSelector({ onChange }) {
 				Selecciona el estilo visual principal del botón de contacto.
 			</p>
 
-			{/* Íconos gratis */}
+			{/* Íconos FREE */}
 			<div className="jlc-icon-grid">
 				{freeIcons.map((icon) => (
 					<div
 						key={icon.id}
 						className={`jlc-icon-item ${
-							settings.selected_icon === icon.id ? 'jlc-icon-active' : ''
+							selectedIcon === icon.id ? 'jlc-icon-active' : ''
 						}`}
 						onClick={() => handleIconChange(icon.id, false)}
 					>
@@ -78,10 +95,10 @@ export default function IconSelector({ onChange }) {
 				))}
 			</div>
 
-			{/* Íconos premium */}
+			{/* Íconos PREMIUM */}
 			<div className="jlc-icon-premium-grid">
 				{premiumIcons.map((icon) => {
-					const locked = !settings.premium_unlocked;
+					const locked = !premiumUnlocked;
 
 					return (
 						<div
@@ -108,27 +125,30 @@ export default function IconSelector({ onChange }) {
 				<label className="jlc-label">Imagen personalizada</label>
 
 				<div className="jlc-custom-image-row">
-					{/* Vista previa */}
-					{settings.custom_image && (
+					{customImage && (
 						<img
-							src={settings.custom_image}
+							src={customImage}
 							alt="Vista previa"
 							className="jlc-custom-image-preview"
 						/>
 					)}
 
-					{/* Botón seleccionar imagen */}
 					<IconImagePicker
-						value={settings.custom_image}
-						onChange={(url) => updateSettings({ custom_image: url })}
+						value={customImage}
+						onChange={(url) => {
+							setCustomImage(url);
+							setSelectedIcon('custom_image');
+						}}
 						buttonClass="jlc-btn-linear"
 					/>
 
-					{/* Botón eliminar */}
-					{settings.custom_image && (
+					{customImage && (
 						<button
 							className="jlc-btn-delete"
-							onClick={() => updateSettings({ custom_image: '' })}
+							onClick={() => {
+								setCustomImage('');
+								setSelectedIcon('default_whatsapp');
+							}}
 						>
 							Eliminar
 						</button>
@@ -136,13 +156,14 @@ export default function IconSelector({ onChange }) {
 				</div>
 			</div>
 
+			{/* BEHAVIOR */}
 			<div className="jlc-radio-group">
 				<label>
 					<input
 						type="radio"
 						value="toggle"
-						checked={settings.behavior === 'toggle'}
-						onChange={(e) => updateSettings({ behavior: e.target.value })}
+						checked={behavior === 'toggle'}
+						onChange={(e) => setBehavior(e.target.value)}
 					/>
 					<span>Alternar con el ícono</span>
 				</label>
@@ -151,21 +172,22 @@ export default function IconSelector({ onChange }) {
 					<input
 						type="radio"
 						value="fixed"
-						checked={settings.behavior === 'fixed'}
-						onChange={(e) => updateSettings({ behavior: e.target.value })}
+						checked={behavior === 'fixed'}
+						onChange={(e) => setBehavior(e.target.value)}
 					/>
 					<span>Imagen fija</span>
 				</label>
 			</div>
 
+			{/* COLOR PICKER */}
 			<div className="jlc-color-box">
 				<label className="jlc-label">Selecciona el color del botón</label>
 
 				<input
 					type="color"
 					className="jlc-color-picker"
-					value={settings.color}
-					onChange={(e) => updateSettings({ color: e.target.value })}
+					value={color}
+					onChange={(e) => setColor(e.target.value)}
 				/>
 			</div>
 		</div>
