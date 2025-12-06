@@ -1,5 +1,5 @@
 /* global wjlcData */
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PhoneSettings from './sections/phone-settings/phone_settings';
 import IconSelector from './sections/icon-selector/icon_selector';
 import FloatingButtonOptions from './sections/floating-button-options/floating_button_options';
@@ -12,6 +12,17 @@ export default function GeneralTab() {
 		icon: {},
 		floating: {},
 	});
+
+	useEffect(() => {
+		fetch('/wp-json/wjlc/v1/general-settings')
+			.then((res) => res.json())
+			.then((data) => {
+				if (data.success && data.settings) {
+					setGlobalData(data.settings);
+				}
+			})
+			.catch(() => {});
+	}, []);
 
 	const updateSectionData = (section, values) => {
 		setGlobalData((prev) => ({
@@ -34,7 +45,7 @@ export default function GeneralTab() {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
-					'X-WP-Nonce': wjlcData.nonce, 
+					'X-WP-Nonce': wjlcData.nonce,
 				},
 				body: JSON.stringify(payload),
 			});
