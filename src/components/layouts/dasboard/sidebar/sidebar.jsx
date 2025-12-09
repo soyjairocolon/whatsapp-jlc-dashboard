@@ -3,7 +3,6 @@ import './sidebar.css';
 export default function Sidebar({ activeTab, setActiveTab }) {
 	return (
 		<aside className="jlc-sidebar">
-			<h2 className="jlc-sidebar-title">WhatsApp JLC</h2>
 
 			<nav className="jlc-nav">
 				<button

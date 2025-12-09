@@ -1,6 +1,10 @@
 .jlc-content {
 	flex: 1;
 	padding: 40px;
-	/* max-width: 1300px; */
-	/* margin: 0 auto; */
+}
+
+@media (max-width: 768px) {
+	.jlc-content {
+		padding: 25px;
+	}
 }

@@ -1,19 +1,24 @@
 .jlc-dashboard {
 	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.jlc-wa-adminbar {
+	width: 100%;
+	background: #ffffff;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+.jlc-dasboard__main {
+	display: flex;
 	min-height: 100vh;
-	width: 90%;
+	width: 100%;
 	background: var(--jlc-premium-bg);
 }
 
-.jlc-sidebar {
-	width: 250px;
-	min-width: 250px;
-	background: var(--jlc-premium-dark);
-	padding: 26px;
-	color: #fff;
-	box-shadow: var(--jlc-shadow);
-	display: flex;
-	flex-direction: column;
+.jlc-container-tabs {
+	width: 86%;
 }
 
 @media (max-width: 1024px) {
@@ -21,75 +26,11 @@
 		flex-direction: column;
 	}
 
-	.jlc-sidebar {
-		width: 100%;
-		min-width: 100%;
-		padding: 18px 22px;
-		display: flex;
-		flex-direction: row;
-		gap: 10px;
-		overflow-x: auto;
-	}
-
-	.jlc-sidebar-title {
-		display: none;
-	}
-
-	.jlc-nav {
-		display: flex;
-		flex-direction: row;
-		gap: 10px;
-	}
-
-	.jlc-nav-item {
-		white-space: nowrap;
-	}
-}
-
-@media (max-width: 768px) {
-	.jlc-dashboard {
-		width: 100%;
-	}
-	.jlc-sidebar {
-		width: 100% !important;
-		min-width: 100% !important;
-		max-width: 100% !important;
-
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-start;
-		align-items: center;
-
-		overflow-x: auto;
-		overflow-y: hidden;
-		gap: 12px;
-
-		padding: 16px 20px;
-	}
-
-	.jlc-nav-item {
-		white-space: nowrap;
-	}
-
-	.jlc-section-title {
-		font-size: 18px;
-	}
-
-	.jlc-phone-row {
+	.jlc-dasboard__main {
 		flex-direction: column;
-		gap: 10px;
 	}
 
-	.jlc-btn-secondary {
-		width: 100%;
-	}
-
-	.jlc-card,
-	.jlc-section-card {
-		padding: 18px;
-	}
-
-	.jlc-save-btn {
+	.jlc-container-tabs {
 		width: 100%;
 	}
 }

@@ -1,0 +1,81 @@
+.jlc-wa-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 85%;
+	padding: 14px 25px;
+	position: sticky;
+	top: 0;
+	z-index: 50;
+}
+
+.jlc-wa-header-left {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.jlc-wa-logo-desktop {
+	display: block;
+	width: 200px;
+	height: auto;
+}
+
+.jlc-wa-logo-mobile {
+	display: none;
+	width: 55px;
+	height: auto;
+}
+
+.jlc-wa-header-right {
+	display: flex;
+	align-items: center;
+	gap: 22px;
+}
+
+.jlc-wa-header-link {
+	font-size: 0.85rem;
+	text-decoration: none;
+	color: #2271b1;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+.jlc-wa-header-premium {
+	background: #ff4b00;
+	padding: 6px 14px;
+	border-radius: 6px;
+	font-size: 0.85rem;
+	color: white;
+	font-weight: 600;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+	.jlc-wa-header {
+		width: 90%;
+		padding: 10px 30px 10px 16px;
+		gap: 10px;
+	}
+
+	.jlc-wa-logo-desktop {
+		display: none;
+	}
+	.jlc-wa-logo-mobile {
+		display: block;
+	}
+
+	.jlc-wa-header-right {
+		gap: 14px;
+	}
+
+	.jlc-wa-header-link {
+		font-size: 0.7rem;
+	}
+
+	.jlc-wa-header-premium {
+		padding: 5px 12px;
+		font-size: 0.7rem;
+	}
+}

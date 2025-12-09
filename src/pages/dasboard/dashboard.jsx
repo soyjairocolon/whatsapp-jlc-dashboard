@@ -8,6 +8,7 @@ import AvanzadoTab from '../../components/tabs/avanzado/avanzado_tab';
 import PremiumTab from '../../components/tabs/premium/premium_tab';
 import { AnimatePresence, motion } from 'framer-motion';
 import { fadeInUp } from '../../motion/variants';
+import Header from '../../components/layouts/header/header';
 import './dashboard.css';
 
 export default function Dashboard() {
@@ -32,21 +33,26 @@ export default function Dashboard() {
 
 	return (
 		<div className="jlc-dashboard">
-			<Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-			<main className="jlc-content">
-				<AnimatePresence mode="wait">
-					<motion.div
-						key={activeTab}
-						initial="hidden"
-						animate="show"
-						exit={{ opacity: 0, y: -10 }}
-						variants={fadeInUp}
-						style={{ width: '100%' }}
-					>
-						{renderTab()}
-					</motion.div>
-				</AnimatePresence>
-			</main>
+			<div className='jlc-wa-adminbar'>
+				<Header />
+			</div>
+			<div className="jlc-dasboard__main">
+				<Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+				<main className="jlc-content">
+					<AnimatePresence mode="wait">
+						<motion.div
+							key={activeTab}
+							initial="hidden"
+							animate="show"
+							exit={{ opacity: 0, y: -10 }}
+							variants={fadeInUp}
+							className='jlc-container-tabs'
+						>
+							{renderTab()}
+						</motion.div>
+					</AnimatePresence>
+				</main>
+			</div>
 		</div>
 	);
 }
