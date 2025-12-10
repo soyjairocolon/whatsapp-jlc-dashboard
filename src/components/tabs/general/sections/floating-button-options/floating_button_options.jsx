@@ -9,6 +9,8 @@ export default function FloatingButtonOptions({ onChange }) {
 	const [mobileOnly, setMobileOnly] = useState(false);
 	const [animationType, setAnimationType] = useState('none');
 	const [tooltipInterval, setTooltipInterval] = useState(8);
+	const [showQR, setShowQR] = useState(false);
+	const [openWeb, setOpenWeb] = useState(false);
 
 	const onChangeRef = useRef(onChange);
 	useEffect(() => {
@@ -35,12 +37,16 @@ export default function FloatingButtonOptions({ onChange }) {
 				const anim = data.animationType ?? 'none';
 				const d = data.delay ?? 1;
 				const mobile = data.mobileOnly ?? false;
+				const showQrVal = data.showQR ?? false;
+				const openWebVal = data.openWeb ?? false;
 
 				setTooltipText(tooltip);
 				setPosition(pos);
 				setAnimationType(anim);
 				setDelay(d);
 				setMobileOnly(mobile);
+				setShowQR(showQrVal);
+				setOpenWeb(openWebVal);
 
 				onChange({
 					tooltipText: tooltip,
@@ -68,6 +74,8 @@ export default function FloatingButtonOptions({ onChange }) {
 			animationType,
 			delay,
 			mobileOnly,
+			showQR,
+			openWeb,
 		});
 	}, [
 		tooltipText,
@@ -76,6 +84,8 @@ export default function FloatingButtonOptions({ onChange }) {
 		mobileOnly,
 		animationType,
 		tooltipInterval,
+		showQR,
+		openWeb,
 	]);
 
 	return (
@@ -99,7 +109,9 @@ export default function FloatingButtonOptions({ onChange }) {
 				</p>
 			</div>
 			<div className="jlc-field">
-				<label className="jlc-label">Intervalo de la información emergente</label>
+				<label className="jlc-label">
+					Intervalo de la información emergente
+				</label>
 
 				<div className="jlc-delay-field">
 					<input
@@ -113,7 +125,8 @@ export default function FloatingButtonOptions({ onChange }) {
 				</div>
 
 				<p className="jlc-description">
-					Frecuencia con la que aparece automáticamente el información emergente.
+					Frecuencia con la que aparece automáticamente el información
+					emergente.
 				</p>
 			</div>
 
@@ -191,12 +204,12 @@ export default function FloatingButtonOptions({ onChange }) {
 			</div>
 
 			{/* OPCIONES DE ESCRITORIO */}
-			{/* <div className="jlc-field">
+			<div className="jlc-field">
 				<label className="jlc-checkbox">
 					<input
 						type="checkbox"
-						checked={data.showQR}
-						onChange={(e) => update('showQR', e.target.checked)}
+						checked={showQR}
+						onChange={(e) => setShowQR(e.target.checked)}
 					/>
 					Mostrar código QR para escanear con el móvil
 				</label>
@@ -204,12 +217,12 @@ export default function FloatingButtonOptions({ onChange }) {
 				<label className="jlc-checkbox">
 					<input
 						type="checkbox"
-						checked={data.openWeb}
-						onChange={(e) => update('openWeb', e.target.checked)}
+						checked={openWeb}
+						onChange={(e) => setOpenWeb(e.target.checked)}
 					/>
 					Abrir directamente WhatsApp Web
 				</label>
-			</div> */}
+			</div>
 		</div>
 	);
 }
