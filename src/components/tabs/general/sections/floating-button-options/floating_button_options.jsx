@@ -7,6 +7,8 @@ export default function FloatingButtonOptions({ onChange }) {
 	const [position, setPosition] = useState('right');
 	const [delay, setDelay] = useState(1);
 	const [mobileOnly, setMobileOnly] = useState(false);
+	const [animationType, setAnimationType] = useState('none');
+	const [tooltipInterval, setTooltipInterval] = useState(8);
 
 	const onChangeRef = useRef(onChange);
 	useEffect(() => {
@@ -30,11 +32,13 @@ export default function FloatingButtonOptions({ onChange }) {
 
 				const tooltip = data.tooltipText ?? '¿Necesitas ayuda?';
 				const pos = data.position ?? 'right';
+				const anim = data.animationType ?? 'none';
 				const d = data.delay ?? 1;
 				const mobile = data.mobileOnly ?? false;
 
 				setTooltipText(tooltip);
 				setPosition(pos);
+				setAnimationType(anim);
 				setDelay(d);
 				setMobileOnly(mobile);
 
@@ -59,11 +63,20 @@ export default function FloatingButtonOptions({ onChange }) {
 	useEffect(() => {
 		onChangeRef.current({
 			tooltipText: tooltipText || '¿Necesitas ayuda?',
+			tooltipInterval,
 			position,
+			animationType,
 			delay,
 			mobileOnly,
 		});
-	}, [tooltipText, position, delay, mobileOnly]);
+	}, [
+		tooltipText,
+		position,
+		delay,
+		mobileOnly,
+		animationType,
+		tooltipInterval,
+	]);
 
 	return (
 		<div className="jlc-floating-options">
@@ -83,6 +96,24 @@ export default function FloatingButtonOptions({ onChange }) {
 
 				<p className="jlc-description">
 					Texto breve que se muestra junto al botón
+				</p>
+			</div>
+			<div className="jlc-field">
+				<label className="jlc-label">Intervalo de la información emergente</label>
+
+				<div className="jlc-delay-field">
+					<input
+						type="number"
+						min={3}
+						className="jlc-input-number"
+						value={tooltipInterval}
+						onChange={(e) => setTooltipInterval(Number(e.target.value))}
+					/>
+					<span className="jlc-delay-suffix">segundos</span>
+				</div>
+
+				<p className="jlc-description">
+					Frecuencia con la que aparece automáticamente el información emergente.
 				</p>
 			</div>
 
@@ -108,6 +139,22 @@ export default function FloatingButtonOptions({ onChange }) {
 						/>
 						Derecha
 					</label>
+				</div>
+			</div>
+
+			<div className="jlc-field">
+				<label className="jlc-label">Tipo de animación</label>
+
+				<div className="jlc-select-wrapper">
+					<select
+						className="jlc-select"
+						value={animationType}
+						onChange={(e) => setAnimationType(e.target.value)}
+					>
+						<option value="none">Sin animación</option>
+						<option value="pulse">Pulso</option>
+						<option value="vibrate">Vibración</option>
+					</select>
 				</div>
 			</div>
 
