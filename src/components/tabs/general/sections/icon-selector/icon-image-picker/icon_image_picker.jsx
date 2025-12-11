@@ -20,16 +20,16 @@ export default function IconImagePicker({ value, onChange, buttonClass = '' }) {
 	};
 
 	return (
-		<div className="jlc-image-picker">
+		<div className="jlc-picker-image">
 			{image && (
-				<div className="jlc-image-preview">
+				<div className="jlc-picker-image-preview">
 					<img src={image} alt="preview" />
 				</div>
 			)}
 
-			<div className="jlc-image-actions">
+			<div className="jlc-picker-image-actions">
 				<button
-					className={`jlc-btn-linear ${buttonClass}`}
+					className={`jlc-picker-btn-linear ${buttonClass}`}
 					onClick={openMediaUploader}
 				>
 					Seleccionar imagen

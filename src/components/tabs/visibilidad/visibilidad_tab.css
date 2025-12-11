@@ -1,0 +1,67 @@
+.jlc-section-card {
+	background: var(--jlc-card);
+	padding: 22px;
+	border-radius: 14px;
+	border: 1px solid var(--jlc-border);
+	margin-top: 20px;
+}
+
+.jlc-vis-row {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 14px 0;
+	border-bottom: 1px solid var(--jlc-border-light);
+}
+
+.jlc-vis-row:last-child {
+	border-bottom: none;
+}
+
+.jlc-vis-child {
+	padding-left: 22px;
+}
+
+.jlc-vis-label {
+	font-size: 0.95rem;
+	font-weight: 500;
+	color: var(--jlc-text);
+}
+
+.jlc-vis-actions {
+	display: flex;
+	gap: 8px;
+}
+
+.jlc-vis-btn {
+	padding: 4px 12px;
+	font-size: 0.85rem;
+	border-radius: 6px;
+	border: 1px solid var(--jlc-border);
+	cursor: pointer;
+	background: var(--jlc-bg);
+	color: var(--jlc-text);
+	transition: 0.25s;
+}
+
+.jlc-vis-btn:hover {
+	background: var(--jlc-hover);
+}
+
+.jlc-vis-btn.active.show {
+	background: #22c55e22;
+	border-color: #22c55e;
+	color: #22c55e;
+}
+
+.jlc-vis-btn.active.hide {
+	background: #ef444422;
+	border-color: #ef4444;
+	color: #ef4444;
+}
+
+.jlc-vis-btn.active.inherit {
+	background: #64748b22;
+	border-color: #64748b;
+	color: #64748b;
+}

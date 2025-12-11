@@ -27,13 +27,11 @@
 	transition: all 0.22s ease;
 }
 
-/* Hover suave */
 .jlc-nav-item:hover {
 	background: var(--jlc-premium-gray);
 	color: #fff;
 }
 
-/* Estado activo premium */
 .jlc-active {
 	background: var(--jlc-premium-gray);
 	color: #fff;

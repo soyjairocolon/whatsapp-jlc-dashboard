@@ -25,12 +25,14 @@ body {
 	--jlc-primary: #25d366;
 	--jlc-primary-dark: #1ebe57;
 
-	--jlc-premium-dark: #0f0f11;
+	--jlc-premium-dark: #111B21;
 	--jlc-premium-gray: #1b1c1f;
-	--jlc-premium-bg: #f3f3f6;
+	--jlc-premium-bg: #fcf5eb;
 
-	--jlc-text: #1a1a1a;
+	--jlc-text: #111B21;
 	--jlc-text-light: #707070;
+	--jlc-text-white: #ffffff;
+	--jlc-text-cream: #fcf5eb;
 
 	--jlc-radius: 14px;
 

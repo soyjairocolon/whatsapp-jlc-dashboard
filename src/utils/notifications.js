@@ -10,7 +10,7 @@ export function notifySuccess(message = "Operación realizada correctamente") {
     icon: "success",
     confirmButtonText: "Aceptar",
     confirmButtonColor: "#4CAF50",
-    timer: 4000,
+    timer: 3000,
     timerProgressBar: true
   });
 }
@@ -24,7 +24,9 @@ export function notifyError(message = "Ocurrió un error inesperado") {
     text: message,
     icon: "error",
     confirmButtonText: "Cerrar",
-    confirmButtonColor: "#d33"
+    confirmButtonColor: "#d33",
+    timer: 3000,
+    timerProgressBar: true
   });
 }
 
@@ -33,13 +35,13 @@ export function notifyError(message = "Ocurrió un error inesperado") {
 // ================================
 export function toastSuccess(message = "Guardado correctamente") {
   Swal.fire({
-    toast: true,
-    position: "top-end",
+    // toast: true,
+    position: "center",
     icon: "success",
     title: message,
     showConfirmButton: false,
-    timer: 4000,
-    timerProgressBar: true
+    timer: 3000,
+    timerProgressBar: true,
   });
 }
 
@@ -48,12 +50,12 @@ export function toastSuccess(message = "Guardado correctamente") {
 // ================================
 export function toastError(message = "Hubo un error") {
   Swal.fire({
-    toast: true,
-    position: "top-end",
+    // toast: true,
+    position: "center",
     icon: "error",
     title: message,
     showConfirmButton: false,
     timer: 2000,
-    timerProgressBar: true
+    timerProgressBar: true,
   });
 }

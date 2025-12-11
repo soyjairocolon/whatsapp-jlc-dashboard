@@ -1,9 +1,9 @@
-// /* global wjlcData */
 import { useEffect } from 'react';
 import './floating_button_options.css';
 
 export default function FloatingButtonOptions({ settings = {}, onChange }) {
 	const defaultSettings = {
+		showTooltip: true,
 		tooltipText: '¿Necesitas ayuda?',
 		tooltipInterval: 8,
 		position: 'right',
@@ -18,74 +18,126 @@ export default function FloatingButtonOptions({ settings = {}, onChange }) {
 	const normalized = {
 		...defaultSettings,
 		...(settings || {}),
+		tooltipInterval:
+			settings.tooltipInterval === 0 && settings.showTooltip !== false
+				? defaultSettings.tooltipInterval
+				: settings.tooltipInterval ?? defaultSettings.tooltipInterval,
 	};
-	
-	// Efecto para inicializar valores si es la primera carga
+
+	// Inicializar solo una vez
 	useEffect(() => {
 		onChange(normalized);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const updateField = (field, value) => {
-		const updated = {
+		let updated = {
 			...normalized,
 			[field]: value,
 		};
+
+		// Si el usuario oculta el tooltip → limpiar valores
+		if (field === 'showTooltip') {
+			if (value === false) {
+				updated.tooltipText = '';
+				updated.tooltipInterval = 0;
+			} else {
+				if (!updated.tooltipText)
+					updated.tooltipText = defaultSettings.tooltipText;
+				if (!updated.tooltipInterval || updated.tooltipInterval === 0) {
+					updated.tooltipInterval = defaultSettings.tooltipInterval;
+				}
+			}
+		}
+
 		onChange(updated);
 	};
 
 	return (
 		<div className="jlc-floating-options">
-			<h2 className="jlc-section-title">Opciones del Botón Flotante</h2>
+			<h2 className="jlc-floating-section-title">
+				Opciones del Botón Flotante
+			</h2>
 
-			{/* Tooltip */}
-			<div className="jlc-field">
-				<label className="jlc-label">Información emergente</label>
-
-				<input
-					type="text"
-					className="jlc-input"
-					placeholder="¿Necesitas ayuda?"
-					value={normalized.tooltipText}
-					onChange={(e) => updateField('tooltipText', e.target.value)}
-				/>
-
-				<p className="jlc-description">
-					Texto breve que se muestra junto al botón
-				</p>
-			</div>
-
-			{/* Intervalo Tooltip */}
-			<div className="jlc-field">
-				<label className="jlc-label">
-					Intervalo de la información emergente
+			{/* NUEVO: Mostrar/Ocultar tooltip */}
+			<div className="jlc-floating-field">
+				<label className="jlc-floating-label">
+					¿Mostrar burbuja de información emergente?
 				</label>
 
-				<div className="jlc-delay-field">
-					<input
-						type="number"
-						min={3}
-						className="jlc-input-number"
-						value={normalized.tooltipInterval}
-						onChange={(e) =>
-							updateField('tooltipInterval', Number(e.target.value))
-						}
-					/>
-					<span className="jlc-delay-suffix">segundos</span>
-				</div>
+				<div className="jlc-floating-radio-group">
+					<label className="jlc-floating-radio">
+						<input
+							type="radio"
+							checked={normalized.showTooltip === true}
+							onChange={() => updateField('showTooltip', true)}
+						/>
+						Sí
+					</label>
 
-				<p className="jlc-description">
-					Frecuencia con la que aparece automáticamente la información
-					emergente.
-				</p>
+					<label className="jlc-floating-radio">
+						<input
+							type="radio"
+							checked={normalized.showTooltip === false}
+							onChange={() => updateField('showTooltip', false)}
+						/>
+						No
+					</label>
+				</div>
 			</div>
 
-			{/* Posición */}
-			<div className="jlc-field">
-				<label className="jlc-label">Posición en pantalla</label>
+			{/* Tooltip — solo si está activado */}
+			{normalized.showTooltip && (
+				<>
+					<div className="jlc-floating-field">
+						<label className="jlc-floating-label">Información emergente</label>
 
-				<div className="jlc-radio-group">
-					<label className="jlc-radio">
+						<input
+							type="text"
+							className="jlc-floating-input"
+							placeholder="¿Necesitas ayuda?"
+							value={normalized.tooltipText}
+							onChange={(e) => updateField('tooltipText', e.target.value)}
+						/>
+
+						<p className="jlc-floating-description">
+							Texto breve que se muestra junto al botón
+						</p>
+					</div>
+
+					{/* Intervalo Tooltip */}
+					<div className="jlc-floating-field">
+						<label className="jlc-floating-label">
+							Intervalo de la información emergente
+						</label>
+
+						<div className="jlc-floating-delay-field">
+							<input
+								type="number"
+								min={3}
+								className="jlc-floating-input-number"
+								value={normalized.tooltipInterval}
+								onChange={(e) =>
+									updateField('tooltipInterval', Number(e.target.value))
+								}
+							/>
+							<span className="jlc-floating-delay-suffix">segundos</span>
+						</div>
+
+						<p className="jlc-floating-description">
+							Frecuencia con la que aparece automáticamente la información
+							emergente.
+						</p>
+					</div>
+				</>
+			)}
+
+			{/* Posición */}
+			<div className="jlc-floating-field">
+				<label className="jlc-floating-label">Posición en pantalla</label>
+
+				<div className="jlc-floating-radio-group">
+					<label className="jlc-floating-radio">
 						<input
 							type="radio"
 							checked={normalized.position === 'left'}
@@ -94,7 +146,7 @@ export default function FloatingButtonOptions({ settings = {}, onChange }) {
 						Izquierda
 					</label>
 
-					<label className="jlc-radio">
+					<label className="jlc-floating-radio">
 						<input
 							type="radio"
 							checked={normalized.position === 'right'}
@@ -106,12 +158,12 @@ export default function FloatingButtonOptions({ settings = {}, onChange }) {
 			</div>
 
 			{/* Tipo de animación */}
-			<div className="jlc-field">
-				<label className="jlc-label">Tipo de animación</label>
+			<div className="jlc-floating-field">
+				<label className="jlc-floating-label">Tipo de animación</label>
 
-				<div className="jlc-select-wrapper">
+				<div className="jlc-floating-select-wrapper">
 					<select
-						className="jlc-select"
+						className="jlc-floating-select"
 						value={normalized.animationType}
 						onChange={(e) => updateField('animationType', e.target.value)}
 					>
@@ -123,28 +175,28 @@ export default function FloatingButtonOptions({ settings = {}, onChange }) {
 			</div>
 
 			{/* Retardo */}
-			<div className="jlc-field">
-				<label className="jlc-label">Retardo del botón</label>
+			<div className="jlc-floating-field">
+				<label className="jlc-floating-label">Retardo del botón</label>
 
-				<div className="jlc-delay-field">
+				<div className="jlc-floating-delay-field">
 					<input
 						type="number"
 						min={-1}
-						className="jlc-input-number"
+						className="jlc-floating-input-number"
 						value={normalized.delay}
 						onChange={(e) => updateField('delay', Number(e.target.value))}
 					/>
-					<span className="jlc-delay-suffix">segundos</span>
+					<span className="jlc-floating-delay-suffix">segundos</span>
 				</div>
 
-				<p className="jlc-description">
+				<p className="jlc-floating-description">
 					-1 para mostrar directamente sin animación
 				</p>
 			</div>
 
 			{/* Solo móvil */}
-			<div className="jlc-field">
-				<label className="jlc-checkbox">
+			<div className="jlc-floating-field">
+				<label className="jlc-floating-checkbox">
 					<input
 						type="checkbox"
 						checked={normalized.mobileOnly}
@@ -155,8 +207,8 @@ export default function FloatingButtonOptions({ settings = {}, onChange }) {
 			</div>
 
 			{/* Opciones de escritorio */}
-			<div className="jlc-field">
-				<label className="jlc-checkbox">
+			<div className="jlc-floating-field jlc-floating-field--group_box">
+				<label className="jlc-floating-checkbox">
 					<input
 						type="checkbox"
 						checked={normalized.showQR}
@@ -165,7 +217,7 @@ export default function FloatingButtonOptions({ settings = {}, onChange }) {
 					Mostrar código QR para escanear con el móvil
 				</label>
 
-				<label className="jlc-checkbox">
+				<label className="jlc-floating-checkbox">
 					<input
 						type="checkbox"
 						checked={normalized.openWeb}

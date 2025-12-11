@@ -1,17 +1,17 @@
-.jlc-image-picker {
+.jlc-picker-image {
 	display: flex;
 	align-items: center;
 	gap: 14px;
 	/* margin: 10px 0 20px; */
 }
 
-.jlc-image-actions {
+.jlc-picker-image-actions {
 	display: flex;
 	align-items: center;
 	gap: 10px;
 }
 
-.jlc-custom-image-preview {
+.jlc-picker-custom-image-preview {
 	width: 52px;
 	height: 52px;
 	border-radius: 12px;
@@ -21,7 +21,7 @@
 	flex-shrink: 0;
 }
 
-.jlc-image-preview img {
+.jlc-picker-image-preview img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
@@ -29,11 +29,11 @@
 }
 
 /* Botón premium linear */
-.jlc-btn-linear {
-	background: linear-gradient(135deg, #4a6cf7, #6a89ff);
-	color: white;
+.jlc-picker-btn-linear {
+	background: var(--jlc-premium-dark);
+	color: var(--jlc-primary);
 	padding: 10px 20px;
-	border-radius: 10px;
+	border-radius: 50px;
 	border: none;
 	cursor: pointer;
 	font-weight: 600;
@@ -41,13 +41,16 @@
 	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
-.jlc-btn-linear:hover {
+.jlc-picker-btn-linear:hover {
+	background: var(--jlc-premium-dark);
+	color: var(--jlc-text-white);
 	filter: brightness(1.07);
 	transform: translateY(-1px);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
 }
 
 /* Botón eliminar */
-.jlc-btn-delete {
+.jlc-picker-btn-delete {
 	background: #fff;
 	border: 1px solid #d9dce1;
 	padding: 10px 16px;
@@ -59,7 +62,7 @@
 	transition: all 0.25s ease;
 }
 
-.jlc-btn-delete:hover {
+.jlc-picker-btn-delete:hover {
 	background: #f3f4f6;
 	border-color: #babec3;
 }

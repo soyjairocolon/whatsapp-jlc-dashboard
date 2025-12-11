@@ -3,7 +3,7 @@ import PhoneSettings from './sections/phone-settings/phone_settings';
 import IconSelector from './sections/icon-selector/icon_selector';
 import FloatingButtonOptions from './sections/floating-button-options/floating_button_options';
 import PreviewBox from './sections/preview-box/preview_box';
-import { notifySuccess, notifyError } from '../../../utils/notifications';
+import { notifySuccess, toastError } from '../../../utils/notifications';
 import './general_tab.css';
 
 export default function GeneralTab({ globalSettings, updateSettings }) {
@@ -50,7 +50,7 @@ export default function GeneralTab({ globalSettings, updateSettings }) {
 			notifySuccess('Cambios guardados correctamente');
 		} catch (error) {
 			console.error('❌ Error al guardar:', error);
-			notifyError('Error al guardar los cambios');
+			toastError('Error al guardar los cambios');
 		}
 	};
 
@@ -80,9 +80,9 @@ export default function GeneralTab({ globalSettings, updateSettings }) {
 					/>
 				</div>
 
-				<div className="jlc-section-card jlc-section-card__previewbox">
+				{/* <div className="jlc-section-card jlc-section-card__previewbox">
 					<PreviewBox settings={globalSettings} />
-				</div>
+				</div> */}
 
 				<button
 					className="jlc-save-btn jlc-btn-primary"

@@ -51,7 +51,7 @@ export default function Header() {
 				<a
 					href="https://jairocolon.com"
 					target="_blank"
-					className="jlc-wa-header-premium"
+					className="jlc-wa-header-premium--btn"
 				>
 					Premium
 				</a>

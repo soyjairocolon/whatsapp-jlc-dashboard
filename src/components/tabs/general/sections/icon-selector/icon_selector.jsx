@@ -1,6 +1,6 @@
 // /* global wjlcData */
 import { useEffect, useState } from 'react';
-import IconImagePicker from "./icon-image-picker/icon_image_picker";
+import IconImagePicker from './icon-image-picker/icon_image_picker';
 import iconDefaultWSDev from '../../../../../assets/images/icons/free/default_whatsapp.png';
 import iconDefaultChatDev from '../../../../../assets/images/icons/free/default_chat.png';
 import iconDefaultSupportDev from '../../../../../assets/images/icons/free/default_support.png';
@@ -15,6 +15,7 @@ export default function IconSelector({ settings = {}, onChange }) {
 	const [behavior, setBehavior] = useState('toggle');
 	const [color, setColor] = useState('#25D366');
 	const [premiumUnlocked, setPremiumUnlocked] = useState(false);
+	const [isReady, setIsReady] = useState(false);
 
 	let freeIcons;
 	let premiumIcons;
@@ -62,10 +63,14 @@ export default function IconSelector({ settings = {}, onChange }) {
 		setBehavior(settings.behavior || 'toggle');
 		setColor(settings.color || '#25D366');
 		setPremiumUnlocked(settings.premium_unlocked || false);
+
+		setIsReady(true);
 	}, [settings]);
 
 	// NOTIFICAR CAMBIOS AL COMPONENTE PADRE (GeneralTab)
 	useEffect(() => {
+		if (!isReady) return;
+
 		onChange({
 			selected_icon: selectedIcon,
 			custom_image: customImage,
@@ -75,7 +80,7 @@ export default function IconSelector({ settings = {}, onChange }) {
 		});
 
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [selectedIcon, customImage, behavior, color, premiumUnlocked]);
+	}, [selectedIcon, customImage, behavior, color, premiumUnlocked, isReady]);
 
 	const handleIconChange = (id, isPremium) => {
 		if (isPremium && !premiumUnlocked) return;

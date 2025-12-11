@@ -51,21 +51,46 @@
 }
 
 .jlc-btn-secondary {
+	position: relative;
+	display: inline-block;
 	background: #ffffff;
 	border: 1px solid #d9dce1;
 	padding: 11px 16px;
-	border-radius: 10px;
+	border-radius: 50px;
 	cursor: pointer;
 	font-size: 14px;
 	font-weight: 600;
 	color: #1b1d1f;
-	transition: all 0.25s ease;
+	overflow: hidden;
+	transition: color 0.3s ease;
 }
 
-.jlc-btn-secondary:hover {
+.jlc-btn-secondary::before {
+	content: 'Probar número';
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	background: var(--jlc-premium-dark);
+	color: var(--jlc-text-cream);
+	transform: scale(1) translateY(67px);
+	transition: transform 0.3s ease;
+	z-index: 0;
+	border-radius: inherit;
+}
+
+.jlc-btn-secondary:hover::before {
+	transform: translateY(0);
+}
+
+/* .jlc-btn-secondary:hover {
 	background: #f3f4f6;
 	border-color: #c9ccd2;
-}
+} */
 
 .jlc-helper {
 	font-size: 13px;

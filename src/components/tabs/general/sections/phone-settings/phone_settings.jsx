@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import PhoneInput from 'react-phone-input-2';
+import { toastError } from '../../../../../utils/notifications';
 import './phone_settings.css';
 
 export default function PhoneSettings({ settings = {}, onChange }) {
@@ -21,7 +22,7 @@ export default function PhoneSettings({ settings = {}, onChange }) {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [settings]);
 
-	// 4. ENVIAR DATOS AL PADRE SOLO CUANDO EL USUARIO CAMBIA
+	// ENVIAR DATOS AL PADRE SOLO CUANDO EL USUARIO CAMBIA
 	const handlePhoneChange = (value) => {
 		setPhone(value);
 		onChange({
@@ -38,9 +39,9 @@ export default function PhoneSettings({ settings = {}, onChange }) {
 		});
 	};
 
-	// 5. PROBAR NÚMERO
+	// PROBAR NÚMERO
 	const testNumber = () => {
-		if (!phone) return alert('Por favor ingresa un número válido');
+		if (!phone) return toastError('Por favor ingresa un número válido');
 
 		const encodedMsg = encodeURIComponent(initialMessage);
 		const url = `https://wa.me/${phone}?text=${encodedMsg}`;
