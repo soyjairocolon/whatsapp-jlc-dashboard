@@ -1,29 +1,57 @@
+// /* global wjlcData */
 import { useEffect, useState } from 'react';
-import IconImagePicker from './icon-image-picker/icon_image_picker';
-import iconDefaultWS from '../../../../../assets/images/icons/free/default_whatsapp.png';
-import iconDefaultChat from '../../../../../assets/images/icons/free/default_chat.png';
-import iconDefaultSupport from '../../../../../assets/images/icons/free/default_support.png';
-import iconPremium1 from '../../../../../assets/images/icons/premium/premium_1.jpg';
-import iconPremium2 from '../../../../../assets/images/icons/premium/premium_2.png';
+import IconImagePicker from "./icon-image-picker/icon_image_picker";
+import iconDefaultWSDev from '../../../../../assets/images/icons/free/default_whatsapp.png';
+import iconDefaultChatDev from '../../../../../assets/images/icons/free/default_chat.png';
+import iconDefaultSupportDev from '../../../../../assets/images/icons/free/default_support.png';
+import iconPremium1Dev from '../../../../../assets/images/icons/premium/premium_1.jpg';
+import iconPremium2Dev from '../../../../../assets/images/icons/premium/premium_2.png';
 import './icon_selector.css';
 
 export default function IconSelector({ settings = {}, onChange }) {
+	const isDev = import.meta.env.DEV;
 	const [selectedIcon, setSelectedIcon] = useState('default_whatsapp');
 	const [customImage, setCustomImage] = useState('');
 	const [behavior, setBehavior] = useState('toggle');
 	const [color, setColor] = useState('#25D366');
 	const [premiumUnlocked, setPremiumUnlocked] = useState(false);
 
-	const freeIcons = [
-		{ id: 'default_whatsapp', src: iconDefaultWS },
-		{ id: 'default_chat', src: iconDefaultChat },
-		{ id: 'default_support', src: iconDefaultSupport },
-	];
+	let freeIcons;
+	let premiumIcons;
 
-	const premiumIcons = [
-		{ id: 'premium_1', label: 'WhatsApp Pro', src: iconPremium1 },
-		{ id: 'premium_2', label: 'Chat Pro', src: iconPremium2 },
-	];
+	if (isDev) {
+		freeIcons = [
+			{ id: 'default_whatsapp', src: iconDefaultWSDev },
+			{ id: 'default_chat', src: iconDefaultChatDev },
+			{ id: 'default_support', src: iconDefaultSupportDev },
+		];
+
+		premiumIcons = [
+			{ id: 'premium_1', label: 'WhatsApp Pro', src: iconPremium1Dev },
+			{ id: 'premium_2', label: 'Chat Pro', src: iconPremium2Dev },
+		];
+	} else {
+		const base = window.wjlcData?.pluginUrl + 'assets/images/icons/';
+
+		freeIcons = [
+			{ id: 'default_whatsapp', src: `${base}free/default_whatsapp.png` },
+			{ id: 'default_chat', src: `${base}free/default_chat.png` },
+			{ id: 'default_support', src: `${base}free/default_support.png` },
+		];
+
+		premiumIcons = [
+			{
+				id: 'premium_1',
+				label: 'WhatsApp Pro',
+				src: `${base}premium/premium_1.jpg`,
+			},
+			{
+				id: 'premium_2',
+				label: 'Chat Pro',
+				src: `${base}premium/premium_2.png`,
+			},
+		];
+	}
 
 	// CUANDO CAMBIEN SETTINGS DESDE WORDPRESS → CARGARLOS
 	useEffect(() => {
@@ -160,7 +188,7 @@ export default function IconSelector({ settings = {}, onChange }) {
 					<input
 						type="radio"
 						value="fixed"
-						className={!customImage ? "jlc-radio-disabled" : ""}
+						className={!customImage ? 'jlc-radio-disabled' : ''}
 						disabled={!customImage}
 						checked={behavior === 'fixed'}
 						onChange={(e) => handleBehaviorChange(e.target.value)}
