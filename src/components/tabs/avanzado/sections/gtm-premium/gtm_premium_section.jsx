@@ -6,7 +6,7 @@ export default function GtmPremiumSection({
 	onChange,
 	openPremiumModal,
 }) {
-	const isPremiumUnlocked = true;
+	const isPremiumUnlocked = false; // Cambia esto cuando actives premium
 	const [showHelpModal, setShowHelpModal] = useState(false);
 
 	// Valores reales según backend
@@ -33,7 +33,7 @@ export default function GtmPremiumSection({
 		});
 	};
 
-	// UPDATE para params.{phone,page,timestamp,type,utm}
+	// UPDATE para params
 	const updateParam = (key, value) => {
 		onChange({
 			gtm: {
@@ -55,6 +55,7 @@ export default function GtmPremiumSection({
 			className="jlc-advanced-section-css jlc-premium-section"
 			style={{ position: 'relative' }}
 		>
+			{/* HEADER */}
 			<div className="jlc-advanced-section-header">
 				<div className="jlc-advanced-texts">
 					<h2 className="jlc-advanced-title">
@@ -79,13 +80,14 @@ export default function GtmPremiumSection({
 				</button>
 			</div>
 
+			{/* CONTENIDO PRINCIPAL */}
 			<div
 				className={
 					'jlc-gtm-container ' + (!isPremiumUnlocked ? 'jlc-gtm-locked' : '')
 				}
 				onClick={blockAction}
 			>
-				{/* ACTIVAR GTM */}
+				{/* ACTIVAR */}
 				<div className="jlc-gtm-row jlc-gtm-checkbox">
 					<label>Activar GTM</label>
 					<input
@@ -107,7 +109,7 @@ export default function GtmPremiumSection({
 					/>
 				</div>
 
-				{/* META EVENT NAME */}
+				{/* META EVENT */}
 				<div className="jlc-gtm-row">
 					<label>Meta FB Event</label>
 					<input
@@ -122,7 +124,6 @@ export default function GtmPremiumSection({
 
 				<h4 className="jlc-gtm-subtitle">Parámetros a enviar</h4>
 
-				{/* PHONE */}
 				<div className="jlc-gtm-row jlc-gtm-checkbox">
 					<label>Teléfono</label>
 					<input
@@ -133,7 +134,6 @@ export default function GtmPremiumSection({
 					/>
 				</div>
 
-				{/* PAGE */}
 				<div className="jlc-gtm-row jlc-gtm-checkbox">
 					<label>Página</label>
 					<input
@@ -144,7 +144,6 @@ export default function GtmPremiumSection({
 					/>
 				</div>
 
-				{/* TIMESTAMP */}
 				<div className="jlc-gtm-row jlc-gtm-checkbox">
 					<label>Timestamp</label>
 					<input
@@ -155,7 +154,6 @@ export default function GtmPremiumSection({
 					/>
 				</div>
 
-				{/* TYPE */}
 				<div className="jlc-gtm-row jlc-gtm-checkbox">
 					<label>Tipo de clic</label>
 					<input
@@ -166,7 +164,6 @@ export default function GtmPremiumSection({
 					/>
 				</div>
 
-				{/* UTM */}
 				<div className="jlc-gtm-row jlc-gtm-checkbox">
 					<label>UTM parameters</label>
 					<input
@@ -177,6 +174,16 @@ export default function GtmPremiumSection({
 					/>
 				</div>
 			</div>
+
+			{/* OVERLAY PREMIUM (FALTABA) */}
+			{!isPremiumUnlocked && (
+				<div className="jlc-premium-overlay" onClick={openPremiumModal}>
+					<div className="jlc-premium-overlay-content">
+						<div className="jlc-lock-icon">🔒</div>
+						Requiere Premium
+					</div>
+				</div>
+			)}
 
 			{/* HELP MODAL */}
 			{showHelpModal && (
@@ -200,11 +207,9 @@ export default function GtmPremiumSection({
 								Evento: <strong>jlc_whatsapp_click</strong>
 							</li>
 							<li>
-								Meta Ads: <strong>jlc_meta_event</strong>
+								Evento Meta Ads: <strong>jlc_meta_event</strong>
 							</li>
-							<li>
-								Incluye parámetros: teléfono, página, timestamp, tipo, UTM
-							</li>
+							<li>Incluye: teléfono, página, timestamp, tipo, UTM</li>
 						</ul>
 
 						<button
