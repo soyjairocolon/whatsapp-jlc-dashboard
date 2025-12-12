@@ -1,12 +1,20 @@
 /* global wjlcData */
-import CustomCSSSection from './sections/custom-css/custom_css_section';
+import { useState } from 'react';
 import { notifySuccess, toastError } from '../../../utils/notifications';
+import CustomCSSSection from './sections/custom-css/custom_css_section';
+import CustomJSPremiumSection from './sections/custom-js-premium/custom_js_premium_section';
 import './avanzado_tab.css';
 
 export default function AvanzadoTab({ globalSettings, updateSettings }) {
+	const [isPremiumModalOpen, setPremiumModalOpen] = useState(false);
+
+	const openPremiumModal = () => setPremiumModalOpen(true);
+	const closePremiumModal = () => setPremiumModalOpen(false);
+
 	// Estado local de la sección avanzada
 	const avanzado = globalSettings.avanzado || {
 		custom_css: '',
+		custom_js: '',
 	};
 
 	// Actualizar campo dentro de globalSettings.avanzado
@@ -21,6 +29,7 @@ export default function AvanzadoTab({ globalSettings, updateSettings }) {
 	const saveAllChanges = async () => {
 		const payload = {
 			custom_css: globalSettings.avanzado?.custom_css || '',
+			custom_js: globalSettings.avanzado?.custom_js || '',
 		};
 
 		console.log('📤 Enviando al backend (save-advanced-settings):', payload);
@@ -51,17 +60,43 @@ export default function AvanzadoTab({ globalSettings, updateSettings }) {
 
 	return (
 		<section className="jlc-advanced-page">
+			{isPremiumModalOpen && (
+				<div className="jlc-premium-modal-overlay" onClick={closePremiumModal}>
+					<div
+						className="jlc-premium-modal"
+						onClick={(e) => e.stopPropagation()}
+					>
+						<h2 className="jlc-premium-modal-title">
+							Disponible en JLC Premium
+						</h2>
+						<p className="jlc-premium-modal-text">
+							Esta funcionalidad es exclusiva para usuarios Premium.
+						</p>
+
+						<button className="jlc-btn-primary" onClick={closePremiumModal}>
+							Entendido
+						</button>
+					</div>
+				</div>
+			)}
+
 			<h1 className="jlc-page-title">Ajustes avanzados</h1>
 
 			<div className="jlc-advanced-container">
 				<div className="jlc-advanced-card">
-					{/* Sección del editor CSS */}
 					<CustomCSSSection
 						settings={globalSettings.avanzado}
 						onChange={(data) => updateAvanzado(data)}
 					/>
 
-					{/* Botón guardar */}
+					<div className="jlc-section-card">
+						<CustomJSPremiumSection
+							settings={globalSettings.avanzado}
+							onChange={(data) => updateAvanzado(data)}
+							openPremiumModal={openPremiumModal}
+						/>
+					</div>
+
 					<button className="jlc-btn-primary" onClick={saveAllChanges}>
 						Guardar cambios
 					</button>

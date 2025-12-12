@@ -24,7 +24,6 @@ export default function CustomCSSSection({ settings = {}, onChange }) {
 			if (update.docChanged) {
 				const value = update.state.doc.toString();
 
-				// Actualiza wp-settings
 				onChange({ custom_css: value });
 
 				// Detecta si está vacío para desactivar el botón
@@ -41,7 +40,6 @@ export default function CustomCSSSection({ settings = {}, onChange }) {
 				EditorView.lineWrapping,
 				EditorView.editable.of(true),
 
-				/* --- 🔥 HABILITAR CTRL+Z, CTRL+Y, CTRL+C, CTRL+V, TAB, ETC ---- */
 				history(), // Habilita undo/redo
 				keymap.of([...defaultKeymap, ...historyKeymap]),
 
