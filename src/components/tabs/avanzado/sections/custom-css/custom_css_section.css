@@ -54,6 +54,7 @@
 	background: #f7f9fc;
 	overflow: hidden;
 	max-height: 400px;
+	min-height: 300px;
 }
 
 .cm-editor {
@@ -61,6 +62,11 @@
 	font-size: 13px !important;
 	background: #f7f9fc !important;
 	padding: 12px;
+	border: 1px solid transparent !important;
+}
+
+.cm-editor:focus-visible {
+	outline: -webkit-focus-ring-color auto 0px;
 }
 
 .cm-scroller {
@@ -77,6 +83,10 @@
 .cm-activeLine {
 	background: #e8f2ff !important;
 	border-radius: 4px;
+}
+
+.ͼ4 {
+	border: 1px solid transparent !important;
 }
 
 .jlc-editor-info {

@@ -1,39 +1,52 @@
-import { useEffect, useRef } from 'react';
-import { EditorView, highlightActiveLine } from '@codemirror/view';
+import { useEffect, useRef, useState } from 'react';
+import { keymap } from '@codemirror/view';
+import { defaultKeymap, history, historyKeymap } from '@codemirror/commands';
+import { EditorView, highlightActiveLine, lineNumbers } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
 import { css } from '@codemirror/lang-css';
-import { lineNumbers } from '@codemirror/view';
 import './custom_css_section.css';
 
 export default function CustomCSSSection({ settings = {}, onChange }) {
 	const editorRef = useRef(null);
 	const viewRef = useRef(null);
 
+	// Estado para controlar si el editor está vacío
+	const [isEmpty, setIsEmpty] = useState(
+		(settings.custom_css ?? '').trim().length === 0
+	);
+
 	useEffect(() => {
 		if (!editorRef.current) return;
 
 		const startCSS = settings.custom_css ?? '';
 
-		// Listener para enviar cambios al backend
 		const updateListener = EditorView.updateListener.of((update) => {
 			if (update.docChanged) {
 				const value = update.state.doc.toString();
+
+				// Actualiza wp-settings
 				onChange({ custom_css: value });
+
+				// Detecta si está vacío para desactivar el botón
+				setIsEmpty(value.trim().length === 0);
 			}
 		});
 
-		// Crear estado del editor
 		const state = EditorState.create({
 			doc: startCSS,
 			extensions: [
 				css(),
 				highlightActiveLine(),
-				lineNumbers(), // ← CORRECTO
+				lineNumbers(),
 				EditorView.lineWrapping,
 				EditorView.editable.of(true),
+
+				/* --- 🔥 HABILITAR CTRL+Z, CTRL+Y, CTRL+C, CTRL+V, TAB, ETC ---- */
+				history(), // Habilita undo/redo
+				keymap.of([...defaultKeymap, ...historyKeymap]),
+
 				updateListener,
 
-				// Tema visual
 				EditorView.theme({
 					'&': {
 						backgroundColor: '#f7f9fc',
@@ -54,21 +67,19 @@ export default function CustomCSSSection({ settings = {}, onChange }) {
 			],
 		});
 
-		// Crear instancia del editor
 		viewRef.current = new EditorView({
 			state,
 			parent: editorRef.current,
 		});
 
-		// Cleanup
 		return () => {
 			viewRef.current?.destroy();
 		};
 	}, []);
 
-	// Insertar ejemplo
+	// Insertar ejemplo, solo si el editor está vacío
 	const fillExample = () => {
-		if (!viewRef.current) return;
+		if (!viewRef.current || !isEmpty) return;
 
 		const example = `/* Ejemplo: personalizar el botón WhatsApp */
 .wjlc-floating-btn {
@@ -102,6 +113,11 @@ export default function CustomCSSSection({ settings = {}, onChange }) {
 					type="button"
 					className="jlc-btn-fill-example"
 					onClick={fillExample}
+					disabled={!isEmpty}
+					style={{
+						opacity: isEmpty ? 1 : 0.5,
+						cursor: isEmpty ? 'pointer' : 'not-allowed',
+					}}
 				>
 					Rellenar con código de ejemplo
 				</button>

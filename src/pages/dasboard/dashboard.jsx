@@ -58,6 +58,7 @@ export default function Dashboard() {
 						},
 
 						visibilidad: json.settings.visibilidad || {},
+						avanzado: json.settings.avanzado || {},
 					}));
 				}
 			} catch (e) {
