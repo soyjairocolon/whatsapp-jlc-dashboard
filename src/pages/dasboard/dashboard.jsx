@@ -99,7 +99,12 @@ export default function Dashboard() {
 				);
 
 			case 'avanzado':
-				return <AvanzadoTab {...sharedProps} />;
+				return (
+					<AvanzadoTab
+						globalSettings={globalSettings}
+						updateSettings={updateSettings}
+					/>
+				);
 
 			case 'premium':
 				return <PremiumTab {...sharedProps} />;

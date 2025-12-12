@@ -1,0 +1,119 @@
+.jlc-advanced-section-css {
+	background: #fff;
+	border-radius: 14px;
+	padding: 22px;
+	margin-top: 20px;
+	position: relative;
+}
+
+.jlc-advanced-section-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 14px;
+	gap: 12px;
+}
+
+/* Contenedor del título + descripción */
+.jlc-advanced-texts {
+	display: flex;
+	flex-direction: column;
+}
+
+.jlc-advanced-title {
+	font-size: 17px;
+	font-weight: 600;
+	margin: 0;
+}
+
+.jlc-advanced-description {
+	font-size: 14px;
+	color: rgba(0, 0, 0, 0.55);
+	margin: 4px 0 0;
+	max-width: 420px;
+	line-height: 1.4;
+}
+
+.jlc-line-numbers::before,
+.jlc-line-numbers::after {
+	content: none !important;
+}
+
+.jlc-btn-fill-example {
+	background: #eef2ff;
+	color: #3730a3;
+	border: 1px solid #c7d2fe;
+	padding: 6px 12px;
+	font-size: 13px;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: 0.2s ease;
+}
+
+.jlc-btn-fill-example:hover {
+	background: #e0e7ff;
+}
+
+.jlc-editor-wrapper {
+	position: relative;
+	display: flex;
+	background: #f8f9fb;
+	border: 1px solid #d4d7dd;
+	border-radius: 10px;
+	overflow: hidden;
+	height: 300px;
+}
+
+.jlc-line-numbers {
+	width: 40px;
+	background: #eef0f4;
+	border-right: 1px solid #d4d7dd;
+	color: #7a7f87;
+	font-size: 13px;
+	font-family: 'JetBrains Mono', monospace;
+	padding: 12px 6px;
+	text-align: right;
+	overflow: hidden;
+	line-height: 1.4;
+	margin-right: 10px;
+}
+
+.jlc-code-editor {
+	flex: 1;
+	padding: 12px;
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 12px;
+	line-height: 1.5;
+	white-space: pre-wrap;
+	outline: none;
+	overflow-y: auto;
+	margin: 0;
+}
+
+/* Genera números de línea automáticamente */
+.jlc-line-numbers::before {
+	content: counter(lines);
+	display: block;
+	counter-reset: lines;
+	white-space: pre;
+}
+
+.jlc-code-editor[contenteditable='true'] {
+	counter-reset: line;
+}
+
+.jlc-editor-footer {
+	font-size: 14px;
+	color: rgba(0, 0, 0, 0.55);
+	margin-top: 8px;
+}
+
+.jlc-editor-footer a {
+	color: #2563eb; /* azul limpio */
+	text-decoration: none;
+	font-weight: 500;
+}
+
+.jlc-editor-footer a:hover {
+	text-decoration: underline;
+}

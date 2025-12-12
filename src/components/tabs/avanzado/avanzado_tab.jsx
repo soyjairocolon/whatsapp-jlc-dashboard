@@ -1,27 +1,21 @@
+import CustomCSSSection from './sections/custom-css/custom_css_section';
 import './avanzado_tab.css';
 
-export default function AvanzadoTab() {
+export default function AvanzadoTab({ globalSettings, updateSettings }) {
 	return (
-		<>
+		<section className="jlc-advanced-page">
 			<h1 className="jlc-page-title">Ajustes avanzados</h1>
 
-			<div className="jlc-card">
-				<label className="jlc-label">Conversión de Google Ads</label>
-				<input className="jlc-input" placeholder="AW-00000000 / ABCDEFGHIJK" />
+			<div className="jlc-advanced-container">
+				<div className="jlc-advanced-card">
+					<CustomCSSSection
+						settings={globalSettings.advanced || {}}
+						onChange={(updated) => updateSettings('advanced', updated)}
+					/>
 
-				<label className="jlc-label">CSS personalizado</label>
-				<textarea
-					className="jlc-textarea"
-					placeholder="Tu CSS personalizado..."
-				></textarea>
-
-				<label className="jlc-checkbox">
-					<input type="checkbox" /> Eliminar todos los ajustes de JLC Company al
-					desinstalar
-				</label>
-
-				<button className="jlc-btn-primary">Guardar cambios</button>
+					<button className="jlc-btn-primary">Guardar cambios</button>
+				</div>
 			</div>
-		</>
+		</section>
 	);
 }

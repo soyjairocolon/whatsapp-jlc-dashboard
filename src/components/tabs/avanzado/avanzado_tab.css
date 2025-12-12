@@ -1,0 +1,32 @@
+.jlc-advanced-container {
+	background: #fff;
+	border-radius: 18px;
+	padding: 10px 20px 30px;
+	border: 1px solid rgba(0, 0, 0, 0.04);
+	max-width: 100%;
+	width: 90%;
+	margin-bottom: 40px;
+	position: relative;
+	box-shadow: var(--jlc-shadow);
+}
+
+.jlc-btn-primary {
+	background: #25d366;
+	color: #fff;
+	padding: 12px 20px;
+	border-radius: 50px;
+	border: none;
+	font-size: 15px;
+	font-weight: 600;
+	margin-top: 20px;
+	width: 100%;
+	max-width: 360px;
+	cursor: pointer;
+	transition: 0.2s ease;
+	box-shadow: 0 4px 10px rgba(37, 211, 102, 0.25);
+	overflow: hidden;
+}
+
+.jlc-btn-primary:hover {
+	background: #1ebe5d;
+}
