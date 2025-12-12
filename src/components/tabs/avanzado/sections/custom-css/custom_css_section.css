@@ -109,9 +109,9 @@
 }
 
 .jlc-editor-footer a {
-	color: #2563eb; /* azul limpio */
-	text-decoration: none;
-	font-weight: 500;
+	color: var(--jlc-premium-dark);
+	text-decoration: underline;
+	font-weight: 600;
 }
 
 .jlc-editor-footer a:hover {
