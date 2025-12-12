@@ -39,11 +39,34 @@ export default function VisibilidadTab({ settings = {}, onChange }) {
 	};
 
 	// REINICIAR VISIBILIDAD
-	const restoreDefaults = () => {
+	const restoreDefaults = async () => {
 		const restored = { ...defaultVisibility };
+
 		setVisibility(restored);
 		onChange(restored);
-		notifySuccess('Visibilidad restaurada a los valores por defecto');
+
+		// AUTO-GUARDADO
+		try {
+			const res = await fetch('/wp-json/wjlc/v1/save-visibility-settings', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-WP-Nonce': wjlcData.nonce,
+				},
+				body: JSON.stringify({ visibilidad: restored }),
+			});
+
+			const json = await res.json();
+
+			if (json.success) {
+				notifySuccess('Visibilidad restaurada y guardada');
+			} else {
+				toastError('No se pudo guardar');
+			}
+		} catch (error) {
+			console.error('❌ Error:', error);
+			toastError('Error al guardar');
+		}
 	};
 
 	// DIBUJA CADA FILA
