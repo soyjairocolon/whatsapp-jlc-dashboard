@@ -114,13 +114,28 @@ export default function Dashboard() {
 	// FUNCIÓN PARA ACTUALIZAR CUALQUIER SECCIÓN
 	// =======================================
 	const updateSettings = (section, values) => {
-		setGlobalSettings((prev) => ({
-			...prev,
-			[section]: {
-				...prev[section],
-				...values,
-			},
-		}));
+		setGlobalSettings((prev) => {
+			if (section === 'phone' || section === 'icon' || section === 'floating') {
+				return {
+					...prev,
+					general: {
+						...prev.general,
+						[section]: {
+							...prev.general[section],
+							...values,
+						},
+					},
+				};
+			}
+
+			return {
+				...prev,
+				[section]: {
+					...prev[section],
+					...values,
+				},
+			};
+		});
 	};
 
 	// ============================

@@ -12,9 +12,9 @@ export default function AvanzadoTab({ globalSettings, updateSettings }) {
 	const openPremiumModal = () => setPremiumModalOpen(true);
 	const closePremiumModal = () => setPremiumModalOpen(false);
 
-	// ===========================================================
-	// ESTADO LOCAL (SIEMPRE REFLEJA EL BACKEND CORRECTAMENTE)
-	// ===========================================================
+	// ===========================================
+	// ESTADO LOCAL (SIEMPRE REFLEJA EL BACKEND
+	// ===========================================
 	const avanzado = {
 		custom_css: globalSettings.avanzado?.custom_css ?? '',
 		custom_js: globalSettings.avanzado?.custom_js ?? '',

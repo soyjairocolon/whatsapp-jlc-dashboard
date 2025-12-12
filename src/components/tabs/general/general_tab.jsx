@@ -62,7 +62,7 @@ export default function GeneralTab({ globalSettings, updateSettings }) {
 				<div className="jlc-section-card">
 					<PhoneSettings
 						settings={globalSettings.general.phone}
-						onChange={(data) => updateSettings('phone', data)}
+						onChange={(data) => updateSettings('phone', data)}  
 					/>
 				</div>
 
