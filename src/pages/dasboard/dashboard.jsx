@@ -1,6 +1,7 @@
 /* global wjlcData */
 import { useState, useEffect } from 'react';
 import Sidebar from '../../components/layouts/dasboard/sidebar/sidebar';
+import Content from '../../components/layouts/dasboard/content/content';
 import GeneralTab from '../../components/tabs/general/general_tab';
 import VisibilidadTab from '../../components/tabs/visibilidad/visibilidad_tab';
 import AvanzadoTab from '../../components/tabs/avanzado/avanzado_tab';
