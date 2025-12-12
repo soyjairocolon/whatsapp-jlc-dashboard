@@ -67,7 +67,7 @@ export default function AvanzadoTab({ globalSettings, updateSettings }) {
 						onClick={(e) => e.stopPropagation()}
 					>
 						<h2 className="jlc-premium-modal-title">
-							Disponible en JLC Premium
+							Pásate a Premium
 						</h2>
 						<p className="jlc-premium-modal-text">
 							Esta funcionalidad es exclusiva para usuarios Premium.

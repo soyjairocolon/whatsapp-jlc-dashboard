@@ -31,8 +31,7 @@
 	margin-bottom: 20px;
 }
 
-/* TAG PREMIUM */
-/* .jlc-premium-tag {
+.jlc-premium-tag {
 	background: var(--jlc-premium);
 	color: white;
 	font-size: 11px;
@@ -40,19 +39,19 @@
 	padding: 2px 6px;
 	border-radius: 4px;
 	margin-left: 6px;
-} */
+}
 
-/* Editor bloqueado */
-/* .jlc-premium-locked-area {
-	position: relative;
+.jlc-editor-wrapper {
+  position: relative;
+}
+
+.jlc-editor-locked {
 	filter: blur(1.5px);
 	user-select: none;
 	pointer-events: none;
-	border-radius: 10px;
-} */
+}
 
-/* Overlay */
-/* .jlc-premium-overlay {
+.jlc-premium-overlay {
 	position: absolute;
 	inset: 0;
 	background: rgba(255, 255, 255, 0.65);
@@ -61,10 +60,11 @@
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	cursor: not-allowed;
+	cursor: pointer;
 	pointer-events: all;
 	border-radius: 10px;
-} */
+	z-index: 10;
+}
 
 .jlc-premium-overlay-content {
 	text-align: center;
@@ -73,23 +73,17 @@
 	font-weight: 600;
 }
 
-/* .jlc-lock-icon {
+.jlc-lock-icon {
 	font-size: 28px;
 	margin-bottom: 6px;
-} */
+}
 
-/* Botón bloqueado */
-/* .jlc-btn-premium-locked {
+.jlc-btn-locked,
+.jlc-btn-premium-locked {
 	opacity: 0.6;
 	cursor: not-allowed !important;
-	pointer-events: all !important;
-} */
+}
 
-/* .jlc-btn-premium-locked:hover {
-	background: #eef2ff !important;
-} */
-
-/* Editor simulado */
 .jlc-premium-editor {
 	font-family: 'JetBrains Mono', monospace !important;
 	font-size: 13px;

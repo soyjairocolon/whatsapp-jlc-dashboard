@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
 	EditorView,
 	highlightActiveLine,
@@ -13,21 +13,34 @@ import './custom_js_premium_section.css';
 export default function CustomJSPremiumSection({
 	settings,
 	onChange,
-	// openPremiumModal,
+	openPremiumModal,
 }) {
 	const editorRef = useRef(null);
 	const viewRef = useRef(null);
 
+	// Cambiar cuando Premium esté activo
+	const isPremiumUnlocked = false;
+
+	// Detectar si el editor tiene contenido → bloquear botón
+	const [hasContent, setHasContent] = useState(() => {
+		return (settings?.custom_js ?? '').trim().length > 0;
+	});
+
 	useEffect(() => {
 		if (!editorRef.current) return;
 
-		// Carga inicial desde settings
 		const initialCode = settings?.custom_js ?? '';
 
 		const updateListener = EditorView.updateListener.of((update) => {
 			if (update.docChanged) {
 				const value = update.state.doc.toString();
-				onChange({ custom_js: value });
+
+				// Detectar contenido para bloquear el botón
+				setHasContent(value.trim().length > 0);
+
+				if (isPremiumUnlocked) {
+					onChange({ custom_js: value });
+				}
 			}
 		});
 
@@ -40,7 +53,9 @@ export default function CustomJSPremiumSection({
 				highlightActiveLine(),
 				lineNumbers(),
 				EditorView.lineWrapping,
-				EditorView.editable.of(true),
+
+				EditorView.editable.of(isPremiumUnlocked),
+
 				updateListener,
 
 				EditorView.theme({
@@ -71,14 +86,22 @@ export default function CustomJSPremiumSection({
 		return () => viewRef.current?.destroy();
 	}, []);
 
-	// Insertar ejemplo
+	// Rellenar con ejemplo (si no Premium → abrir modal)
 	const fillExample = () => {
+		if (!isPremiumUnlocked) {
+			openPremiumModal();
+			return;
+		}
+
 		if (!viewRef.current) return;
 
-		const example = `/* Ejemplo JS Premium */
-document.addEventListener("DOMContentLoaded", () => {
-	console.log("WhatsApp JLC Premium activado.");
-});`;
+		const example = `/* Ejemplo código JS */
+setInterval(() => {
+	const btn = document.querySelector(".wjlc-floating-btn");
+	if (!btn) return;
+	btn.style.backgroundColor =
+		btn.style.backgroundColor === "red" ? "#25D366" : "red";
+}, 2000);`;
 
 		viewRef.current.dispatch({
 			changes: {
@@ -96,8 +119,10 @@ document.addEventListener("DOMContentLoaded", () => {
 			<div className="jlc-advanced-section-header">
 				<div className="jlc-advanced-texts">
 					<h2 className="jlc-advanced-title">
-						JS personalizado
-						{/* <span className="jlc-premium-tag">Premium</span> */}
+						JS personalizado{' '}
+						{!isPremiumUnlocked && (
+							<span className="jlc-premium-tag">Premium</span>
+						)}
 					</h2>
 
 					<p className="jlc-advanced-description">
@@ -108,14 +133,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
 				<button
 					type="button"
-					className="jlc-btn-fill-example"
+					className={
+						'jlc-btn-fill-example ' +
+						(!isPremiumUnlocked || hasContent ? 'jlc-btn-premium-locked' : '')
+					}
 					onClick={fillExample}
 				>
 					Rellenar con código de ejemplo
 				</button>
 			</div>
 
-			<div ref={editorRef} className="jlc-codemirror-container"></div>
+			{/* Editor */}
+			<div className="jlc-editor-wrapper">
+				<div
+					ref={editorRef}
+					className={
+						'jlc-codemirror-container ' +
+						(!isPremiumUnlocked ? 'jlc-editor-locked' : '')
+					}
+					onClick={() => {
+						if (!isPremiumUnlocked) openPremiumModal();
+					}}
+				></div>
+
+				{/* Overlay Premium */}
+				{!isPremiumUnlocked && (
+					<div className="jlc-premium-overlay" onClick={openPremiumModal}>
+						<div className="jlc-premium-overlay-content">
+							<div className="jlc-lock-icon">🔒</div>
+							Requiere Premium
+						</div>
+					</div>
+				)}
+			</div>
 
 			<p className="jlc-editor-info">
 				Puedes encontrar ejemplos y más trucos de Javascript{' '}
